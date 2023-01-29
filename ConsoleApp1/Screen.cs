@@ -26,6 +26,15 @@ namespace chess
             Console.WriteLine("  a b c d e f g h");
         }
 
+        public static ChessPosition readChessPosition()
+        {
+            string moveInput = Console.ReadLine();
+            char column = moveInput[0];
+            int line = int.Parse(moveInput[1] + "");
+
+            return new ChessPosition(column, line);
+        }
+
         public static void printPiece(Piece piece)
         {
             if (piece.color == Color.White)

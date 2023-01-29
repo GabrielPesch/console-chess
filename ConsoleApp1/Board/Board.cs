@@ -33,6 +33,19 @@
             piece.position = position;
         }
 
+        public Piece removePiece(Position position)
+        {
+            if (piece(position) == null)
+            {
+                return null;
+            }
+
+            Piece removedPiece                = piece(position);
+            removedPiece.position = position;
+            pieces[position.line, position.column] = null;
+            return removedPiece;
+        }
+
         public bool isOcuppiedPosition(Position position) {
             validatePosition(position);
             return piece(position) != null;

@@ -16,5 +16,10 @@
             this.numberOfMoves = 0;
 
         }
+
+        public void addNumberOfMoves()
+        {
+            numberOfMoves++;
+        }
     }
 }

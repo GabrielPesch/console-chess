@@ -10,19 +10,23 @@ namespace console_chess
         {
             try
             {
-                Board board = new Board(8, 8);
+                ChessMatch match = new ChessMatch();
 
-                board.setPiecePosition(new Rook(board, Color.Black), new Position(0, 0));
-                board.setPiecePosition(new Rook(board, Color.Black), new Position(1, 3));
-                board.setPiecePosition(new King(board, Color.Black), new Position(2, 4));
+                while (match.isMatchOver == false)
+                {
+                    Console.Clear();
+                    Screen.printBoard(match.board);
+                    Console.WriteLine("");
 
+                    Console.Write("Choose a piece to move: ");
+                    Position startPosition = Screen.readChessPosition().toPosition();
 
-                board.setPiecePosition(new Rook(board, Color.White), new Position(3,2));
-                board.setPiecePosition(new Rook(board, Color.White), new Position(4, 6));
-                board.setPiecePosition(new King(board, Color.White), new Position(5, 7));
-                Screen.printBoard(board);
+                    Console.Write("Where do you want to move this piece? ");
+                    Position endPosition = Screen.readChessPosition().toPosition();
 
-                Console.ReadLine();
+                    match.movePiece(startPosition, endPosition);
+
+                }
             }
             catch (BoardException exception)
             {
