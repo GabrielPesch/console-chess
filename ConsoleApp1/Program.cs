@@ -8,15 +8,22 @@ namespace console_chess
     {
         static void Main(string[] args)
         {
-            Board board = new Board(8, 8);
+            try
+            {
+                Board board = new Board(8, 8);
 
-            board.setPiece(new Rook(board, Color.Black), new Position(0, 0));
-            board.setPiece(new Rook(board, Color.Black), new Position(1, 3));
-            board.setPiece(new King(board, Color.Black), new Position(2, 4));
+                board.setPiecePosition(new Rook(board, Color.Black), new Position(0, 0));
+                board.setPiecePosition(new Rook(board, Color.Black), new Position(1, 3));
+                board.setPiecePosition(new King(board, Color.Black), new Position(2, 4));
 
-            Screen.printBoard(board);
+                Screen.printBoard(board);
 
-            Console.ReadLine();
+                Console.ReadLine();
+            }
+            catch (BoardException exception)
+            {
+                Console.WriteLine(exception.Message);
+            }
         }
     }
 }
