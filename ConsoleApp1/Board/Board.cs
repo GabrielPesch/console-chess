@@ -2,63 +2,74 @@
 {
     internal class Board
     {
-        public int lines { get; set; }
-        public int columns { get; set; }
+        public int Lines { get; set; }
+        public int Columns { get; set; }
         private Piece[,] pieces;
 
         public Board(int lines, int columns)
         {
-            this.lines = lines;
-            this.columns = columns;
+            Lines = lines;
+            Columns = columns;
             pieces = new Piece[lines, columns];
         }
 
-        public Piece piece(int line, int column)
+        public Piece Piece(int line, int column)
         {
             return pieces[line, column];
         }
 
-        public Piece piece(Position position)
+        public Piece Piece(Position position)
         {
-            return pieces[position.line, position.column];
+            return pieces[position.Line, position.Column];
         }
 
-        public void setPiecePosition(Piece piece, Position position)
+        public bool IsValidPosition(Position position)
         {
-            if (isOcuppiedPosition(position))
+            if (position.Line < 0 || position.Line >= Lines || position.Column < 0 || position.Column >= Columns)
+            {
+                return false;
+            };
+            return true;
+        }
+
+        public bool HasPiece(Position position)
+        {
+            ValidatePosition(position);
+            return Piece(position) != null;
+        }
+
+        public void SetPiecePosition(Piece piece, Position position)
+        {
+            if (IsOcuppiedPosition(position))
             {
                 throw new BoardException("A piece already occupies this postion!");
             }
-            pieces[position.line, position.column] = piece;
-            piece.position = position;
+            pieces[position.Line, position.Column] = piece;
+            piece.Position = position;
         }
 
-        public Piece removePiece(Position position)
+        public Piece RemovePiece(Position position)
         {
-            if (piece(position) == null)
+            if (Piece(position) == null)
             {
                 return null;
             }
 
-            Piece removedPiece                = piece(position);
-            removedPiece.position = position;
-            pieces[position.line, position.column] = null;
+            Piece removedPiece = Piece(position);
+            removedPiece.Position = null;
+            pieces[position.Line, position.Column] = null;
             return removedPiece;
         }
 
-        public bool isOcuppiedPosition(Position position) {
-            validatePosition(position);
-            return piece(position) != null;
+        public bool IsOcuppiedPosition(Position position)
+        {
+            ValidatePosition(position);
+            return Piece(position) != null;
         }
 
-        public bool isValidPosition(Position position)
+        public void ValidatePosition(Position position)
         {
-            return !(position.line < 0 || position.line >= lines || position.column < 0 || position.column >= columns);
-        }
-
-        public void validatePosition(Position position)
-        {
-            if (isValidPosition(position) == false)
+            if (!IsValidPosition(position))
             {
                 throw new BoardException("Invalid Position!");
             }

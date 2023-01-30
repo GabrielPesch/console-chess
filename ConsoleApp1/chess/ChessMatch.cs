@@ -5,31 +5,43 @@ namespace chess
 {
     internal class ChessMatch
     {
-        public Board board { get; private set; }
-        private int turn;
-        private Color currentPlayer;
-        public bool isMatchOver { get; private set; }
+        public Board Board { get; private set; }
+        private int Turn;
+        private Color CurrentPlayer;
+        public bool InProgress { get; private set; }
 
         public ChessMatch()
         {
-            board = new Board(8, 8);
-            turn = 1;
-            currentPlayer = Color.White;
-            isMatchOver = false;
-            createBoard();
+            Board = new Board(8, 8);
+            Turn = 1;
+            CurrentPlayer = Color.White;
+            InProgress = true;
+            SetPieces();
         }
 
-        public void movePiece(Position startPosition, Position endPosition)
+        public void MovePiece(Position startPosition, Position endPosition)
         {
-            Piece movingPiece = board.removePiece(startPosition);
-            movingPiece.addNumberOfMoves();
-            Piece capturedPiece = board.removePiece(endPosition);
-            board.setPiecePosition(movingPiece, endPosition);
+            Piece movingPiece = Board.RemovePiece(startPosition);
+            movingPiece.AddNumberOfMoves();
+            Piece capturedPiece = Board.RemovePiece(endPosition);
+            Board.SetPiecePosition(movingPiece, endPosition);
         }
 
-        private void createBoard()
+        private void SetPieces()
         {
-            board.setPiecePosition(new Rook(board, Color.White), new ChessPosition('c', 1).toPosition());
+            Board.SetPiecePosition(new Rook(Board, Color.White), new ChessPosition('c', 1).ToPosition());
+            Board.SetPiecePosition(new Rook(Board, Color.White), new ChessPosition('c', 2).ToPosition());
+            Board.SetPiecePosition(new Rook(Board, Color.White), new ChessPosition('d', 2).ToPosition());
+            Board.SetPiecePosition(new Rook(Board, Color.White), new ChessPosition('e', 2).ToPosition());
+            Board.SetPiecePosition(new Rook(Board, Color.White), new ChessPosition('e', 1).ToPosition());
+            Board.SetPiecePosition(new King(Board, Color.White), new ChessPosition('d', 1).ToPosition());
+
+            Board.SetPiecePosition(new Rook(Board, Color.Black), new ChessPosition('c', 7).ToPosition());
+            Board.SetPiecePosition(new Rook(Board, Color.Black), new ChessPosition('c', 8).ToPosition());
+            Board.SetPiecePosition(new Rook(Board, Color.Black), new ChessPosition('d', 7).ToPosition());
+            Board.SetPiecePosition(new Rook(Board, Color.Black), new ChessPosition('e', 7).ToPosition());
+            Board.SetPiecePosition(new Rook(Board, Color.Black), new ChessPosition('e', 8).ToPosition());
+            Board.SetPiecePosition(new King(Board, Color.Black), new ChessPosition('d', 8).ToPosition());
         }
     }
 }

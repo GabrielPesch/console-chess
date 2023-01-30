@@ -12,19 +12,26 @@ namespace console_chess
             {
                 ChessMatch match = new ChessMatch();
 
-                while (match.isMatchOver == false)
+                while (match.InProgress)
                 {
                     Console.Clear();
-                    Screen.printBoard(match.board);
+                    Screen.PrintBoard(match.Board);
+
                     Console.WriteLine("");
-
                     Console.Write("Choose a piece to move: ");
-                    Position startPosition = Screen.readChessPosition().toPosition();
+                    Position startPosition = Screen.ReadChessPosition().ToPosition();
 
+                    bool[,] availablePossitions = match.Board.Piece(startPosition).AvailableMoves();
+
+                    Console.Clear();
+
+                    Screen.PrintBoard(match.Board, availablePossitions);
+
+                    Console.WriteLine();
                     Console.Write("Where do you want to move this piece? ");
-                    Position endPosition = Screen.readChessPosition().toPosition();
+                    Position endPosition = Screen.ReadChessPosition().ToPosition();
 
-                    match.movePiece(startPosition, endPosition);
+                    match.MovePiece(startPosition, endPosition);
 
                 }
             }
@@ -32,6 +39,7 @@ namespace console_chess
             {
                 Console.WriteLine(exception.Message);
             }
+            Console.WriteLine();
         }
     }
 }

@@ -1,25 +1,27 @@
 ﻿namespace board
 {
-    class Piece
+    abstract class Piece
     {
-        public Color color { get; protected set; }
-        public Board board { get; protected set; }
-        public Position position { get; set; }
-        public int numberOfMoves { get; protected set; }
+        public Position Position { get; set; }
+        public Color Color { get; protected set; }
+        public int NumberOfMoves { get; protected set; }
+        public Board Board { get; protected set; }
 
 
         public Piece(Board board, Color color)
         {
-            this.color = color;
-            this.board = board;
-            this.position = null;
-            this.numberOfMoves = 0;
+            Position = null;
+            Board = board;
+            Color = color;
+            NumberOfMoves = 0;
 
         }
 
-        public void addNumberOfMoves()
+        public void AddNumberOfMoves()
         {
-            numberOfMoves++;
+            NumberOfMoves++;
         }
+
+        public abstract bool[,] AvailableMoves();
     }
 }
