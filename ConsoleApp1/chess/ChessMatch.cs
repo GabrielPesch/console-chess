@@ -6,8 +6,8 @@ namespace chess
     internal class ChessMatch
     {
         public Board Board { get; private set; }
-        private int Turn;
-        private Color CurrentPlayer;
+        public int Turn { get; private set; }
+        public Color CurrentPlayer { get; private set; }
         public bool InProgress { get; private set; }
 
         public ChessMatch()
@@ -25,6 +25,46 @@ namespace chess
             movingPiece.AddNumberOfMoves();
             Piece capturedPiece = Board.RemovePiece(endPosition);
             Board.SetPiecePosition(movingPiece, endPosition);
+        }
+
+        public void PerformMove(Position startPosition, Position endPosition)
+        {
+            MovePiece(startPosition, endPosition);
+            Turn++;
+            ChangePlayer();
+        }
+
+        private void ChangePlayer()
+        {
+            CurrentPlayer = CurrentPlayer == Color.White
+                ? Color.Black
+                : Color.White;
+        }
+
+        public void ValidateStartPosition(Position startPosition)
+        {
+            if(Board.Piece(startPosition) == null)
+            {
+                throw new BoardException("There is no piece in the selected position!");
+            }
+
+            if(CurrentPlayer != Board.Piece(startPosition).Color)
+            {
+                throw new BoardException("The chosen piece belongs to your opponent!");
+            }
+
+            if(!Board.Piece(startPosition).hasValidMoves())
+            {
+                throw new BoardException("There are no possible moves for the selected piece!");
+            }
+        }
+
+        public void ValidateEndPosition(Position startPosition, Position endPosition)
+        {
+            if (!Board.Piece(startPosition).CanMoveTo(endPosition))
+            {
+                throw new BoardException("Invalid destination position!");
+            }
         }
 
         private void SetPieces()

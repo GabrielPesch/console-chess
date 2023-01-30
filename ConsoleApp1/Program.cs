@@ -8,18 +8,24 @@ namespace console_chess
     {
         static void Main(string[] args)
         {
-            try
-            {
-                ChessMatch match = new ChessMatch();
 
-                while (match.InProgress)
+            ChessMatch match = new ChessMatch();
+
+            while (match.InProgress)
+            {
+                try
                 {
                     Console.Clear();
                     Screen.PrintBoard(match.Board);
 
-                    Console.WriteLine("");
+                    Console.WriteLine();
+                    Console.WriteLine("Turn: " + match.Turn);
+                    Console.WriteLine("Current player: " + match.CurrentPlayer);
+
+                    Console.WriteLine();
                     Console.Write("Choose a piece to move: ");
                     Position startPosition = Screen.ReadChessPosition().ToPosition();
+                    match.ValidateStartPosition(startPosition);
 
                     bool[,] availablePossitions = match.Board.Piece(startPosition).AvailableMoves();
 
@@ -30,15 +36,19 @@ namespace console_chess
                     Console.WriteLine();
                     Console.Write("Where do you want to move this piece? ");
                     Position endPosition = Screen.ReadChessPosition().ToPosition();
+                    match.ValidateEndPosition(startPosition, endPosition);
 
-                    match.MovePiece(startPosition, endPosition);
+                    match.PerformMove(startPosition, endPosition);
 
                 }
+                catch (BoardException exception)
+                {
+                    Console.WriteLine(exception.Message);
+                    Console.WriteLine("Press any key to continue.");
+                    Console.ReadLine();
+                }
             }
-            catch (BoardException exception)
-            {
-                Console.WriteLine(exception.Message);
-            }
+
             Console.WriteLine();
         }
     }

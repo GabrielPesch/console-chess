@@ -50,7 +50,7 @@ namespace chess
 
         public static ChessPosition ReadChessPosition()
         {
-            string moveInput = Console.ReadLine();
+            string moveInput = Console.ReadLine().ToLower();
             char column = moveInput[0];
             int line = int.Parse(moveInput[1] + "");
 

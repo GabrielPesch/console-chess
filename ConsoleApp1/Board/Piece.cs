@@ -22,6 +22,27 @@
             NumberOfMoves++;
         }
 
+        public bool hasValidMoves()
+        {
+            bool[,] AvailablemMovesMatrix = AvailableMoves();
+            for (int currentLine = 0; currentLine < Board.Lines; currentLine++)
+            {
+                for (int currentColumn = 0; currentColumn < Board.Columns; currentColumn++)
+                {
+                    if (AvailablemMovesMatrix[currentLine, currentColumn])
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public bool CanMoveTo(Position position)
+        {
+            return AvailableMoves()[position.Line, position.Column];
+        }
+
         public abstract bool[,] AvailableMoves();
     }
 }
