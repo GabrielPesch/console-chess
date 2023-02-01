@@ -205,6 +205,8 @@ namespace chess
             SetNewPiece('a', 1, new Rook(Board, Color.White));
             SetNewPiece('g', 1, new Rook(Board, Color.White));
             SetNewPiece('g', 2, new Rook(Board, Color.White));
+            SetNewPiece('d', 5, new Bishop(Board, Color.White));
+
             SetNewPiece('d', 1, new King(Board, Color.White));
 
 
