@@ -9,6 +9,20 @@ namespace chess
 
         public ChessPosition(char column, int line)
         {
+            bool invalidColumn = column < 'a' || column > 'h'
+
+            if (invalidColumn)
+            {
+                throw new BoardException("Invalid column value.");
+            }
+
+            bool invalidLine = (line < 1 || line > 8
+
+            if (invalidLine)
+            {
+                throw new BoardException("Invalid line value.");
+            }
+
             Column = column;
             Line = line;
         }
@@ -17,6 +31,7 @@ namespace chess
         {
             int normalizedLine = 8 - Line;
             int normalizedColumn = Column - 'a';
+
             return new Position(normalizedLine, normalizedColumn);
         }
 

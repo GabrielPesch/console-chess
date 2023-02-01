@@ -1,10 +1,52 @@
 ﻿using board;
-using System;
+
 
 namespace chess
 {
     class Screen
     {
+
+        public static void PrintMatch(ChessMatch match)
+        {
+            Screen.PrintBoard(match.Board);
+            Console.WriteLine();
+
+            PrintCapturedPieces(match);
+
+            Console.WriteLine();
+
+            Console.WriteLine("Turn: " + match.Turn);
+            Console.WriteLine("Current player: " + match.CurrentPlayer);
+        }
+
+        public static void PrintCapturedPieces(ChessMatch match)
+        {
+            ConsoleColor defaultForeGroundColor = Console.ForegroundColor;
+
+            Console.WriteLine("Captured pieces: ");
+            Console.Write("White: ");
+
+            PrintHashSet(match.CapturedPiecesByColor(Color.White));
+            Console.WriteLine();
+
+            Console.Write("Black: ");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            PrintHashSet(match.CapturedPiecesByColor(Color.Black));
+            Console.ForegroundColor = defaultForeGroundColor;
+            Console.WriteLine();
+        }
+
+        public static void PrintHashSet(HashSet<Piece> hashSet)
+        {
+            Console.Write("[");
+            foreach (Piece piece in hashSet)
+            {
+                Console.Write(piece + ", ");
+            }
+            Console.Write("]");
+        }
+
         public static void PrintBoard(Board board)
         {
             for (int currentLine = 0; currentLine < board.Lines; currentLine++)
@@ -51,8 +93,25 @@ namespace chess
         public static ChessPosition ReadChessPosition()
         {
             string moveInput = Console.ReadLine().ToLower();
+
+            if (moveInput.Length != 2)
+            {
+                throw new BoardException("Invalid position. It should be a letter followed by a number.");
+            }
+
             char column = moveInput[0];
+
+            if (column < 'a' || column > 'h')
+            {
+                throw new BoardException("Invalid position. Column should be between 'a' and 'h'.");
+            }
+
             int line = int.Parse(moveInput[1] + "");
+
+            if (line < 1 || line > 8)
+            {
+                throw new BoardException("Invalid position. Line should be between 1 and 8.");
+            }
 
             return new ChessPosition(column, line);
         }

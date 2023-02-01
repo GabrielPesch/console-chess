@@ -1,5 +1,4 @@
 ﻿using board;
-using System.Runtime.ConstrainedExecution;
 
 namespace chess
 {
@@ -24,54 +23,83 @@ namespace chess
 
             Position currentPosition = new Position(0, 0);
 
-            // n
-            currentPosition.SetValues(Position.Line - 1, Position.Column);
-            while (Board.IsValidPosition(currentPosition) && CanMove(currentPosition)) {
-                availableMovesMatrix[currentPosition.Line, currentPosition.Column] = true;
-                if (Board.Piece(currentPosition) != null && Board.Piece(currentPosition).Color != Color ) {
+             Position north = new Position(Position.Line - 1, Position.Column);
+            currentPosition.SetValues(north);
+            while (Board.IsValidPosition(currentPosition))
+            {
+                if (Board.Piece(currentPosition) == null)
+                {
+                    availableMovesMatrix[currentPosition.Line, currentPosition.Column] = true;
+                    currentPosition.Line--;
+                }
+                else
+                {
+                    if (Board.Piece(currentPosition).Color != Color)
+                    {
+                        availableMovesMatrix[currentPosition.Line, currentPosition.Column] = true;
+                    }
                     break;
                 }
-                currentPosition.Line--;
             }
 
             // s
             currentPosition.SetValues(Position.Line + 1, Position.Column);
-            while (Board.IsValidPosition(currentPosition) && CanMove(currentPosition))
+            while (Board.IsValidPosition(currentPosition))
             {
-                availableMovesMatrix[currentPosition.Line, currentPosition.Column] = true;
-                if (Board.Piece(currentPosition) != null && Board.Piece(currentPosition).Color != Color)
+                if (Board.Piece(currentPosition) == null)
                 {
+                    availableMovesMatrix[currentPosition.Line, currentPosition.Column] = true;
+                    currentPosition.Line++;
+                }
+                else
+                {
+                    if (Board.Piece(currentPosition).Color != Color)
+                    {
+                        availableMovesMatrix[currentPosition.Line, currentPosition.Column] = true;
+                    }
                     break;
                 }
-                currentPosition.Line++;
             }
 
             // e
             currentPosition.SetValues(Position.Line, Position.Column + 1);
-            while (Board.IsValidPosition(currentPosition) && CanMove(currentPosition))
+            while (Board.IsValidPosition(currentPosition))
             {
-                availableMovesMatrix[currentPosition.Line, currentPosition.Column] = true;
-                if (Board.Piece(currentPosition) != null && Board.Piece(currentPosition).Color != Color)
+                if (Board.Piece(currentPosition) == null)
                 {
+                    availableMovesMatrix[currentPosition.Line, currentPosition.Column] = true;
+                    currentPosition.Column++;
+                }
+                else
+                {
+                    if (Board.Piece(currentPosition).Color != Color)
+                    {
+                        availableMovesMatrix[currentPosition.Line, currentPosition.Column] = true;
+                    }
                     break;
                 }
-                currentPosition.Column++;
             }
 
             // w
             currentPosition.SetValues(Position.Line, Position.Column - 1);
-            while (Board.IsValidPosition(currentPosition) && CanMove(currentPosition))
+            while (Board.IsValidPosition(currentPosition))
             {
-                availableMovesMatrix[currentPosition.Line, currentPosition.Column] = true;
-                if (Board.Piece(currentPosition) != null && Board.Piece(currentPosition).Color != Color)
+                if (Board.Piece(currentPosition) == null)
                 {
+                    availableMovesMatrix[currentPosition.Line, currentPosition.Column] = true;
+                    currentPosition.Column--;
+                }
+                else
+                {
+                    if (Board.Piece(currentPosition).Color != Color)
+                    {
+                        availableMovesMatrix[currentPosition.Line, currentPosition.Column] = true;
+                    }
                     break;
                 }
-                currentPosition.Column--;
             }
 
             return availableMovesMatrix;
-
         }
     }
 }
