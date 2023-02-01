@@ -11,12 +11,6 @@ namespace chess
             return "B";
         }
 
-        private bool CanMove(Position piecePosition)
-        {
-            Piece piece = Board.Piece(piecePosition);
-            return piece == null || piece.Color != Color;
-        }
-
         public override bool[,] AvailableMoves()
         {
             bool[,] availableMovesMatrix = new bool[Board.Lines, Board.Columns];
