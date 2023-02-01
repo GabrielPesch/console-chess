@@ -38,7 +38,7 @@
             return Piece(position) != null;
         }
 
-        public void SetPiecePosition(Piece piece, Position position)
+        public void SetPieceInPosition(Piece piece, Position position)
         {
             if (IsOcuppiedPosition(position))
             {

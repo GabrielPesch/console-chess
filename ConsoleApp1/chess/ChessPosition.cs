@@ -9,14 +9,14 @@ namespace chess
 
         public ChessPosition(char column, int line)
         {
-            bool invalidColumn = column < 'a' || column > 'h'
+            bool invalidColumn = column < 'a' || column > 'h';
 
             if (invalidColumn)
             {
                 throw new BoardException("Invalid column value.");
             }
 
-            bool invalidLine = (line < 1 || line > 8
+            bool invalidLine = line < 1 || line > 8;
 
             if (invalidLine)
             {

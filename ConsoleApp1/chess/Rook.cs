@@ -23,8 +23,8 @@ namespace chess
 
             Position currentPosition = new Position(0, 0);
 
-             Position north = new Position(Position.Line - 1, Position.Column);
-            currentPosition.SetValues(north);
+            // n
+            currentPosition.SetValues(Position.Line - 1, Position.Column);
             while (Board.IsValidPosition(currentPosition))
             {
                 if (Board.Piece(currentPosition) == null)

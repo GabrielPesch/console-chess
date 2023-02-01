@@ -1,20 +1,19 @@
 ﻿using board;
 using chess;
-using System;
+
 
 namespace console_chess
 {
     class Program
     {
-
         static void Main(string[] args)
         {
             try
             {
-                ChessMatch match = new ChessMatch();
+                ChessMatch match = new();
 
 
-                while (match.InProgress)
+                while (!match.IsOver)
                 {
                     try
                     {
@@ -36,7 +35,7 @@ namespace console_chess
                         Position endPosition = Screen.ReadChessPosition().ToPosition();
                         match.ValidateEndPosition(startPosition, endPosition);
 
-                        match.PerformMove(startPosition, endPosition);
+                        match.PerformMovement(startPosition, endPosition);
                     }
                     catch (BoardException exception)
                     {
@@ -44,17 +43,14 @@ namespace console_chess
                         Console.ReadLine();
                     }
                 }
-
-
+                Console.Clear();
+                Screen.PrintMatch(match);
             }
             catch (BoardException exception)
             {
                 Console.WriteLine(exception.Message);
-                Console.WriteLine("Press any key to continue.");
-                Console.ReadLine();
             }
             Console.ReadLine();
-
         }
     }
 }

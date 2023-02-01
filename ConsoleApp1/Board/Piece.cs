@@ -14,7 +14,6 @@
             Board = board;
             Color = color;
             NumberOfMoves = 0;
-
         }
 
         public void AddNumberOfMoves()
@@ -22,14 +21,19 @@
             NumberOfMoves++;
         }
 
+        public void DecreaseNumberOfMoves()
+        {
+            NumberOfMoves--;
+        }
+
         public bool hasValidMoves()
         {
             bool[,] AvailablemMovesMatrix = AvailableMoves();
-            for (int currentLine = 0; currentLine < Board.Lines; currentLine++)
+            for (int row = 0; row < Board.Lines; row++)
             {
-                for (int currentColumn = 0; currentColumn < Board.Columns; currentColumn++)
+                for (int col = 0; col < Board.Columns; col++)
                 {
-                    if (AvailablemMovesMatrix[currentLine, currentColumn])
+                    if (AvailablemMovesMatrix[row, col])
                     {
                         return true;
                     }

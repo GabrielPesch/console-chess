@@ -16,7 +16,20 @@ namespace chess
             Console.WriteLine();
 
             Console.WriteLine("Turn: " + match.Turn);
-            Console.WriteLine("Current player: " + match.CurrentPlayer);
+
+            if (!match.IsOver)
+            {
+                Console.WriteLine("Current player: " + match.CurrentPlayer);
+                if(match.Check)
+                {
+                    Console.WriteLine("XEQUE!");
+                }
+            }
+            else
+            {
+                Console.Write("XEQUEMATE!");
+                Console.WriteLine("Winner: " + match.CurrentPlayer);
+            }
         }
 
         public static void PrintCapturedPieces(ChessMatch match)
@@ -49,12 +62,12 @@ namespace chess
 
         public static void PrintBoard(Board board)
         {
-            for (int currentLine = 0; currentLine < board.Lines; currentLine++)
+            for (int row = 0; row < board.Lines; row++)
             {
-                Console.Write(8 - currentLine + " ");
-                for (int currentColumn = 0; currentColumn < board.Columns; currentColumn++)
+                Console.Write(8 - row + " ");
+                for (int col = 0; col < board.Columns; col++)
                 {
-                    PrintPiece(board.Piece(currentLine, currentColumn));
+                    PrintPiece(board.Piece(row, col));
 
                 }
                 Console.WriteLine();
@@ -68,12 +81,12 @@ namespace chess
             ConsoleColor defaultBackground = Console.BackgroundColor;
             ConsoleColor availableMoveBackground = ConsoleColor.DarkGray;
 
-            for (int currentLine = 0; currentLine < board.Lines; currentLine++)
+            for (int row = 0; row < board.Lines; row++)
             {
-                Console.Write(8 - currentLine + " ");
-                for (int currentColumn = 0; currentColumn < board.Columns; currentColumn++)
+                Console.Write(8 - row + " ");
+                for (int col = 0; col < board.Columns; col++)
                 {
-                    if (availableMoves[currentLine, currentColumn])
+                    if (availableMoves[row, col])
                     {
                         Console.BackgroundColor = availableMoveBackground;
                     }
@@ -81,7 +94,7 @@ namespace chess
                     {
                         Console.BackgroundColor = defaultBackground;
                     }
-                    PrintPiece(board.Piece(currentLine, currentColumn));
+                    PrintPiece(board.Piece(row, col));
                     Console.BackgroundColor = defaultBackground;
                 }
                 Console.WriteLine();
