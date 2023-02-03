@@ -15,7 +15,7 @@ namespace chess
         {
             bool[,] availableMovesMatrix = new bool[Board.Lines, Board.Columns];
 
-            Position currentPosition = new Position(0, 0);
+            Position currentPosition = new (0, 0);
 
             // nw
             currentPosition.SetValues(Position.Line - 1, Position.Column -1);
