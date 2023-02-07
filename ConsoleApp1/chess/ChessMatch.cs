@@ -36,6 +36,28 @@ namespace chess
                 CapturedPieces.Add(capturedPiece);
             }
 
+            // specialMove short Castle
+            if(movingPiece is King && endPosition.Column == startPosition.Column + 2)
+            {
+                Position rookStartPosition = new (startPosition.Line, startPosition.Column +3);
+                Position rookEndPosition = new(startPosition.Line, startPosition.Column + 1);
+
+                Piece rook = Board.RemovePiece(rookStartPosition);
+                rook.AddNumberOfMoves();
+                Board.SetPieceInPosition(rook, rookEndPosition);
+            }
+
+            // specialMove long Castle
+            if (movingPiece is King && endPosition.Column == startPosition.Column - 2)
+            {
+                Position rookStartPosition = new(startPosition.Line, startPosition.Column - 4);
+                Position rookEndPosition = new(startPosition.Line, startPosition.Column - 1);
+
+                Piece rook = Board.RemovePiece(rookStartPosition);
+                rook.AddNumberOfMoves();
+                Board.SetPieceInPosition(rook, rookEndPosition);
+            }
+
             return capturedPiece;
         }
 
@@ -50,6 +72,30 @@ namespace chess
                 CapturedPieces.Remove(capturedPiece);
             }
             Board.SetPieceInPosition(piece, startPosition);
+
+            // specialMove short Castle
+            if (piece is King && endPosition.Column == startPosition.Column + 2)
+            {
+                Position rookStartPosition = new(startPosition.Line, startPosition.Column + 3);
+                Position rookEndPosition = new(startPosition.Line, startPosition.Column + 1);
+
+                Piece rook = Board.RemovePiece(rookEndPosition);
+                rook.DecreaseNumberOfMoves();
+                Board.SetPieceInPosition(rook, rookStartPosition);
+            }
+
+            // specialMove short Castle
+            if (piece is King && endPosition.Column == startPosition.Column - 2)
+            {
+                Position rookStartPosition = new(startPosition.Line, startPosition.Column - 4);
+                Position rookEndPosition = new(startPosition.Line, startPosition.Column - 1);
+
+                Piece rook = Board.RemovePiece(rookEndPosition);
+                rook.DecreaseNumberOfMoves();
+                Board.SetPieceInPosition(rook, rookStartPosition);
+            }
+
+
         }
 
         public void PerformMovement(Position startPosition, Position endPosition)
@@ -138,7 +184,7 @@ namespace chess
 
             if (king == null)
             {
-                throw new BoardException("There is no " + color + " king on the board");
+                throw new BoardException("There is no " + color + " rook on the board");
             }
 
             foreach (Piece piece in PiecesInPlayByColor(EnemyPlayer(color)))
@@ -206,7 +252,7 @@ namespace chess
             SetNewPiece('b', 1, new Knight(Board, Color.White));
             SetNewPiece('c', 1, new Bishop(Board, Color.White));
             SetNewPiece('d', 1, new Queen(Board, Color.White));
-            SetNewPiece('e', 1, new King(Board, Color.White));
+            SetNewPiece('e', 1, new King(Board, Color.White, this));
             SetNewPiece('f', 1, new Bishop(Board, Color.White));
             SetNewPiece('g', 1, new Knight(Board, Color.White));
             SetNewPiece('h', 1, new Rook(Board, Color.White));
@@ -224,7 +270,7 @@ namespace chess
             SetNewPiece('b', 8, new Knight(Board, Color.Black));
             SetNewPiece('c', 8, new Bishop(Board, Color.Black));
             SetNewPiece('d', 8, new Queen(Board, Color.Black));
-            SetNewPiece('e', 8, new King(Board, Color.Black));
+            SetNewPiece('e', 8, new King(Board, Color.Black, this));
             SetNewPiece('f', 8, new Bishop(Board, Color.Black));
             SetNewPiece('g', 8, new Knight(Board, Color.Black));
             SetNewPiece('h', 8, new Rook(Board, Color.Black));

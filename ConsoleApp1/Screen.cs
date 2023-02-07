@@ -119,11 +119,11 @@ namespace chess
                 throw new BoardException("Invalid position. Column should be between 'a' and 'h'.");
             }
 
-            int line = int.Parse(moveInput[1] + "");
-
-            if (line < 1 || line > 8)
+            int line;
+            bool isParsed = int.TryParse(moveInput[1].ToString(), out line);
+            if (!isParsed || line < 1 || line > 8)
             {
-                throw new BoardException("Invalid position. Line should be between 1 and 8.");
+                throw new BoardException("Invalid position. Line should be a number between 1 and 8.");
             }
 
             return new ChessPosition(column, line);
