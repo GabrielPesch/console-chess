@@ -36,22 +36,12 @@ namespace chess
                 CapturedPieces.Add(capturedPiece);
             }
 
-            // specialMove short Castle
-            if(movingPiece is King && endPosition.Column == startPosition.Column + 2)
+            // specialMove Castle
+            if (movingPiece is King && Math.Abs(endPosition.Column - startPosition.Column) == 2)
             {
-                Position rookStartPosition = new (startPosition.Line, startPosition.Column +3);
-                Position rookEndPosition = new(startPosition.Line, startPosition.Column + 1);
-
-                Piece rook = Board.RemovePiece(rookStartPosition);
-                rook.AddNumberOfMoves();
-                Board.SetPieceInPosition(rook, rookEndPosition);
-            }
-
-            // specialMove long Castle
-            if (movingPiece is King && endPosition.Column == startPosition.Column - 2)
-            {
-                Position rookStartPosition = new(startPosition.Line, startPosition.Column - 4);
-                Position rookEndPosition = new(startPosition.Line, startPosition.Column - 1);
+                int direction = endPosition.Column > startPosition.Column ? 1 : -1;
+                Position rookStartPosition = new(startPosition.Line, startPosition.Column + 3 * direction);
+                Position rookEndPosition = new(startPosition.Line, startPosition.Column + 1 * direction);
 
                 Piece rook = Board.RemovePiece(rookStartPosition);
                 rook.AddNumberOfMoves();
@@ -73,29 +63,17 @@ namespace chess
             }
             Board.SetPieceInPosition(piece, startPosition);
 
-            // specialMove short Castle
-            if (piece is King && endPosition.Column == startPosition.Column + 2)
+            // Castle
+            if (piece is King && Math.Abs(endPosition.Column - startPosition.Column) == 2)
             {
-                Position rookStartPosition = new(startPosition.Line, startPosition.Column + 3);
-                Position rookEndPosition = new(startPosition.Line, startPosition.Column + 1);
+                int direction = endPosition.Column > startPosition.Column ? 1 : -1;
+                Position rookStartPosition = new(startPosition.Line, startPosition.Column - 3 * direction);
+                Position rookEndPosition = new(startPosition.Line, startPosition.Column - 1 * direction);
 
                 Piece rook = Board.RemovePiece(rookEndPosition);
                 rook.DecreaseNumberOfMoves();
                 Board.SetPieceInPosition(rook, rookStartPosition);
             }
-
-            // specialMove short Castle
-            if (piece is King && endPosition.Column == startPosition.Column - 2)
-            {
-                Position rookStartPosition = new(startPosition.Line, startPosition.Column - 4);
-                Position rookEndPosition = new(startPosition.Line, startPosition.Column - 1);
-
-                Piece rook = Board.RemovePiece(rookEndPosition);
-                rook.DecreaseNumberOfMoves();
-                Board.SetPieceInPosition(rook, rookStartPosition);
-            }
-
-
         }
 
         public void PerformMovement(Position startPosition, Position endPosition)
@@ -105,6 +83,20 @@ namespace chess
             {
                 UndoMovement(startPosition, endPosition, capturedPiece);
                 throw new BoardException("Illegal move: Putting yourself in check is not allowed. Please choose another move.");
+            }
+
+            Piece piece = Board.Piece(endPosition);
+
+            // #special move Promotion
+            if (piece is Pawn)
+            {
+                if (piece.Color == Color.White && endPosition.Line == 0 || piece.Color == Color.Black && endPosition.Line == 8) {
+                    piece = Board.RemovePiece(endPosition);
+                    Pieces.Remove(piece);
+                    Piece queen = new Queen(Board, piece.Color);
+                    Board.SetPieceInPosition(queen, endPosition);
+                    Pieces.Add(queen);
+                }
             }
 
             Check = (IsInCheck(EnemyPlayer(CurrentPlayer)));
